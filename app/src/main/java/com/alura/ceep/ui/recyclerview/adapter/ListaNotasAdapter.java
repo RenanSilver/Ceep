@@ -1,7 +1,6 @@
 package com.alura.ceep.ui.recyclerview.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +14,10 @@ import com.alura.ceep.model.Nota;
 
 import java.util.List;
 
-public class ListaNotasAdapter extends RecyclerView.Adapter {
+public class ListaNotasAdapter extends RecyclerView.Adapter<ListaNotasAdapter.NotaViewHolder> {
 
     private List<Nota> notas;
     private Context context;
-    private static int quantidadeViewCriada = 0;
-    private static int quantidadeBindView = 0;
 
     public ListaNotasAdapter (Context context, List<Nota> notas){
         this.context = context;
@@ -30,23 +27,17 @@ public class ListaNotasAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        quantidadeViewCriada ++;
+    public ListaNotasAdapter.NotaViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View viewCriada = LayoutInflater.from(context)
                 .inflate(R.layout.item_nota, parent, false);
-        Log.i("recyclerView adapter", "view holder criado " + quantidadeViewCriada);
         return new NotaViewHolder(viewCriada);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        quantidadeBindView++;
+    public void onBindViewHolder(ListaNotasAdapter.NotaViewHolder holder, int position) {
         Nota nota = notas.get(position);
-        TextView titulo = holder.itemView.findViewById(R.id.item_nota_titulo);
-        titulo.setText(nota.getTitulo());
-        TextView descricao = holder.itemView.findViewById(R.id.item_nota_descricao);
-        descricao.setText(nota.getDescricao());
-        Log.i("recyclerView adapter", "bind: posicao " + position + " quantidade " + quantidadeBindView);
+        holder.vincula(nota);
+
     }
 
     @Override
@@ -56,8 +47,18 @@ public class ListaNotasAdapter extends RecyclerView.Adapter {
 
     class NotaViewHolder extends RecyclerView.ViewHolder {
 
+        private final TextView descricao;
+        private final TextView titulo;
+
         public NotaViewHolder(@NonNull View itemView) {
             super(itemView);
+            titulo = itemView.findViewById(R.id.item_nota_titulo);
+            descricao = itemView.findViewById(R.id.item_nota_descricao);
+        }
+
+        public void vincula(Nota nota){
+            titulo.setText(nota.getTitulo());
+            descricao.setText(nota.getDescricao());
         }
     }
 }
