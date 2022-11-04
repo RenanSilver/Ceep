@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,7 +34,11 @@ public class ListaNotasAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-
+        Nota nota = notas.get(position);
+        TextView titulo = holder.itemView.findViewById(R.id.item_nota_titulo);
+        titulo.setText(nota.getTitulo());
+        TextView descricao = holder.itemView.findViewById(R.id.item_nota_descricao);
+        descricao.setText(nota.getDescricao());
     }
 
     @Override
